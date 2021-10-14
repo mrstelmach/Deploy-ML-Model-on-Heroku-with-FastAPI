@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+
+"""
+Data preprocessing step for training and inference.
+"""
+
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
@@ -67,4 +73,5 @@ def process_data(
             pass
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
+    
     return X, y, encoder, lb
