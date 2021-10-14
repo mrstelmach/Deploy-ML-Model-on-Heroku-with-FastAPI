@@ -1,4 +1,8 @@
-# Script to train machine learning model.
+# -*- coding: utf-8 -*-
+
+"""
+Script to train machine learning model.
+"""
 
 from sklearn.model_selection import train_test_split
 
