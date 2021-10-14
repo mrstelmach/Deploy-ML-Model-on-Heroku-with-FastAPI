@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """
-Functions for training Gradient Boosting model, computing metrics 
-and running in inference mode.
+Functions for training Gradient Boosting with hyperparameter optimization, 
+computing metrics and running in inference mode.
 """
 
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.model_selection import RandomizedSearchCV
 
 
 # Optional: implement hyperparameter tuning.
@@ -27,9 +28,23 @@ def train_model(X_train, y_train):
     """
 
     gb_clf = GradientBoostingClassifier()
-    gb_clf.fit(X_train, y_train)
+    params = dict(
+        learning_rate = [0.05, 0.1],
+        n_estimators = [100, 150, 200, 250],
+        max_depth = [2, 3, 4, 5],
+        min_samples_leaf = [5, 10, 25]
+    )
+    rnd_search = RandomizedSearchCV(
+        estimator=gb_clf,
+        param_distributions=params,
+        cv=3,
+        n_iter=25,
+        n_jobs=-1,
+        refit=True
+    )
+    rnd_search.fit(X_train, y_train)
     
-    return gb_clf
+    return rnd_search.best_estimator_
 
 
 def compute_model_metrics(y, preds):
