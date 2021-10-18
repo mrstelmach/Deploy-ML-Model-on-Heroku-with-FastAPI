@@ -11,7 +11,7 @@ from sklearn.model_selection import RandomizedSearchCV
 
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train):
+def train_model(X_train, y_train, hp_iter=5):
     """
     Trains a machine learning model and returns it.
 
@@ -21,6 +21,8 @@ def train_model(X_train, y_train):
         Training data.
     y_train : np.array
         Labels.
+    hp_iter: int
+        Number of hp tuning iterations.
     Returns
     -------
     model
@@ -38,7 +40,7 @@ def train_model(X_train, y_train):
         estimator=gb_clf,
         param_distributions=params,
         cv=3,
-        n_iter=25,
+        n_iter=hp_iter,
         n_jobs=-1,
         refit=True
     )

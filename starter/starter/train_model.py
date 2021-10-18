@@ -45,7 +45,7 @@ X_test, y_test, _, _ = process_data(
 )
 
 # Train and save a model.
-classifier = train_model(X_train, y_train)
+classifier = train_model(X_train, y_train, hp_iter=25)
 with open(os.path.join(MODEL_PATH, 'gb_model.pkl'), 'wb') as model_file:
     pickle.dump(classifier, model_file)
 
