@@ -12,8 +12,8 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from data import process_data
-from model import compute_model_metrics, inference, train_model
+from .data import process_data
+from .model import compute_model_metrics, inference, train_model
 
 DATA_PATH = 'starter/data'
 
