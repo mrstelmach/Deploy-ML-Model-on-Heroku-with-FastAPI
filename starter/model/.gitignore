@@ -1,2 +1,4 @@
 
 /gb_model.pkl
+/label_binarizer.pkl
+/one_hot_encoder.pkl
