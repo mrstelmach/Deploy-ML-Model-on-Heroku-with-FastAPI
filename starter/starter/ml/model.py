@@ -11,7 +11,7 @@ from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.model_selection import RandomizedSearchCV
 
 
-def train_model(X_train, y_train, hp_iter=5):
+def train_model(X_train, y_train, hp_iter=5, random_seed=0):
     """
     Trains a machine learning model and returns it.
 
@@ -29,7 +29,7 @@ def train_model(X_train, y_train, hp_iter=5):
         Trained machine learning model.
     """
 
-    gb_clf = GradientBoostingClassifier()
+    gb_clf = GradientBoostingClassifier(random_state=random_seed)
     params = dict(
         learning_rate = [0.05, 0.1],
         n_estimators = [100, 150, 200, 250],
@@ -42,7 +42,8 @@ def train_model(X_train, y_train, hp_iter=5):
         cv=3,
         n_iter=hp_iter,
         n_jobs=-1,
-        refit=True
+        refit=True,
+        random_state=random_seed
     )
     rnd_search.fit(X_train, y_train)
     

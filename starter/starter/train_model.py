@@ -20,7 +20,7 @@ MODEL_PATH = 'starter/model'
 data = pd.read_csv(os.path.join(DATA_PATH, 'census_cleaned.csv'))
 
 # Optional enhancement, use K-fold cross validation instead of a train-test split.
-train, test = train_test_split(data, test_size=0.20)
+train, test = train_test_split(data, test_size=0.20, random_state=0)
 train.to_csv(os.path.join(DATA_PATH, 'census_train.csv'), index=False)
 test.to_csv(os.path.join(DATA_PATH, 'census_test.csv'), index=False)
 
