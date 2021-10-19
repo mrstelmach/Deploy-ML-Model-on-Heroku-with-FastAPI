@@ -32,4 +32,9 @@ F1 score is used as a main model performance metric. Precision and recall are al
 
 ## Ethical Considerations
 
+The model does not use any sensitive data and no risks related to model usage were identified.
+
 ## Caveats and Recommendations
+
+Although a current model score is quite decent, a further performance boost might be achieved with a more sophisticated feature engineering and broader hyperparameter tuning step (more iterations, larger scope of hyperparameters).<br>
+By thorough investigation of [performance.csv](https://github.com/mrstelmach/Deploy-ML-Model-on-Heroku-with-FastAPI/blob/main/starter/data/performance.csv) file one can assume that the model is not significantly overfitted but there is a slight model bias according to data sclices performance for categorical features (e.g., diverging scores among `marital-status` feature and potential performance drop for `native-country` different than United-States as this one is the majority).
