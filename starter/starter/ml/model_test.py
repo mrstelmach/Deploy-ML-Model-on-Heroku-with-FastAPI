@@ -7,6 +7,7 @@ Set of tests for functions available in starter.ml.model module.
 import os
 import pickle
 
+import numpy as np
 import pandas as pd
 import pytest
 from sklearn.ensemble import GradientBoostingClassifier
@@ -82,9 +83,17 @@ def test_train_model(get_train_data):
     assert model.n_classes_ == 2
 
 
-def test_inference():
-    """"""
-    assert True
+def test_inference(get_test_data, get_model):
+    """
+    Test whether inference function returns a numpy array of the same shape
+    as y and values of 0 or 1.
+    """
+    X_test, y_test = get_test_data
+    pred = inference(get_model, X_test)
+    
+    assert isinstance(pred, np.ndarray)
+    assert pred.shape == y_test.shape
+    assert set(pred) == set([0, 1])
 
 
 def test_compute_model_metrics(get_test_data, get_model):
