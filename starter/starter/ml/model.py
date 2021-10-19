@@ -92,7 +92,8 @@ def inference(model, X):
 
 
 def get_slices_performance(model, data, categorical_features, process_data_fn,
-                           one_hot_encoder, label_binarizer, label="salary"):
+                           one_hot_encoder, label_binarizer,
+                           label="salary", type="train"):
     """
     Output performance of the model on slices of the data for categorical
     features with comparison to overall performance.
@@ -113,6 +114,8 @@ def get_slices_performance(model, data, categorical_features, process_data_fn,
         Fitted instance of LabelBinarizer.
     label : str
         Column name with y value.
+    type : str
+        Name of new column to be added for resulting data frame.
     Returns
     -------
     performance : pd.DataFrame
@@ -146,4 +149,5 @@ def get_slices_performance(model, data, categorical_features, process_data_fn,
             })
     
     performance = pd.DataFrame(performance)
+    performance['type'] = type
     return performance
