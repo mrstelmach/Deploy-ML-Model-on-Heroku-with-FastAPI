@@ -10,8 +10,8 @@ import pickle
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from starter.starter.ml.data import process_data
-from starter.starter.ml.model import compute_model_metrics, inference, train_model 
+from ml.data import process_data
+from ml.model import get_slices_performance, train_model
 
 DATA_PATH = 'starter/data'
 MODEL_PATH = 'starter/model'
@@ -38,7 +38,7 @@ X_train, y_train, encoder, lb = process_data(
     train, categorical_features=cat_features, label="salary", training=True
 )
 
-# Save model related artifacts
+# Save model related artifacts.
 with open(os.path.join(MODEL_PATH, 'one_hot_encoder.pkl'), 'wb') as encoder_file:
     pickle.dump(encoder, encoder_file)
 with open(os.path.join(MODEL_PATH, 'label_binarizer.pkl'), 'wb') as lb_file:
@@ -55,6 +55,19 @@ classifier = train_model(X_train, y_train, hp_iter=25)
 with open(os.path.join(MODEL_PATH, 'gb_model.pkl'), 'wb') as model_file:
     pickle.dump(classifier, model_file)
 
-# Evaluate model
-print(compute_model_metrics(y_train, inference(classifier, X_train)))
-print(compute_model_metrics(y_test, inference(classifier, X_test)))
+# Evaluate overall model score and performance on slices.
+perf_args = {
+    'model': classifier,
+    'data': train,
+    'categorical_features': cat_features,
+    'process_data_fn': process_data,
+    'one_hot_encoder': encoder,
+    'label_binarizer': lb,
+    'label': 'salary',
+    'type': 'train'
+}
+perf_train = get_slices_performance(**perf_args)
+perf_args['data'], perf_args['type'] = test, 'test'
+perf_test = get_slices_performance(**perf_args)
+perf = pd.concat([perf_train, perf_test])
+perf.to_csv(os.path.join(DATA_PATH, 'performance.csv'), index=False)
