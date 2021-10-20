@@ -35,6 +35,26 @@ class InputFeatures(BaseModel):
     capital_loss: int = Field(..., alias='capital-loss')
     hours_per_week: int = Field(..., alias='hours-per-week')
     native_country: str = Field(..., alias='native-country')
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                'age': 40,
+                'workclass': 'Private',
+                'fnlgt': 102606,
+                'education': 'Masters',
+                'education-num': 14,
+                'marital-status': 'Married-civ-spouse',
+                'occupation': 'Exec-managerial',
+                'relationship': 'Husband',
+                'race': 'White',
+                'sex': 'Male',
+                'capital-gain': 0,
+                'capital-loss': 0,
+                'hours-per-week': 40,
+                'native-country': 'United-States'
+            }
+        }
 
 
 app = FastAPI()
