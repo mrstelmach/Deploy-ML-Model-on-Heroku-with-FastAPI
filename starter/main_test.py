@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 
 """
-Dummy test.
+Set of tests for API from main.py module.
 """
 
-import pytest
+from fastapi.testclient import TestClient
+from .main import app
+
+client = TestClient(app)
 
 
-def test_dummy():
-    assert True
+def test_get_method():
+    r = client.get("/")
+    assert r.status_code == 200
+    assert r.json() == {'message': "Welcome to the API!"}
+
+
+test_get_method()
