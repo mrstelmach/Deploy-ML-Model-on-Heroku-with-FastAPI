@@ -15,28 +15,16 @@ from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
 from .data import process_data
-from .model import compute_model_metrics, inference, train_model
+from .model import compute_model_metrics, inference, ModelConfig, train_model
 
-DATA_PATH = 'starter/data'
-MODEL_PATH = 'starter/model'
-
-cat_features = [
-    "workclass",
-    "education",
-    "marital-status",
-    "occupation",
-    "relationship",
-    "race",
-    "sex",
-    "native-country",
-]
+mc = ModelConfig()
 
 
 @pytest.fixture
 def get_train_data():
-    train_data = pd.read_csv(os.path.join(DATA_PATH, 'census_train.csv'))
+    train_data = pd.read_csv(os.path.join(mc.data_path, 'census_train.csv'))
     X_train, y_train, _, _ = process_data(
-        train_data, categorical_features=cat_features, label="salary", 
+        train_data, categorical_features=mc.cat_features, label="salary", 
         training=True
     )
     return X_train, y_train
@@ -44,13 +32,13 @@ def get_train_data():
 
 @pytest.fixture
 def get_test_data():
-    test_data = pd.read_csv(os.path.join(DATA_PATH, 'census_test.csv'))
-    with open(os.path.join(MODEL_PATH, 'one_hot_encoder.pkl'), 'rb') as encoder_file:
+    test_data = pd.read_csv(os.path.join(mc.data_path, 'census_test.csv'))
+    with open(os.path.join(mc.model_path, 'one_hot_encoder.pkl'), 'rb') as encoder_file:
         encoder = pickle.load(encoder_file)
-    with open(os.path.join(MODEL_PATH, 'label_binarizer.pkl'), 'rb') as lb_file:
+    with open(os.path.join(mc.model_path, 'label_binarizer.pkl'), 'rb') as lb_file:
         lb = pickle.load(lb_file)
     X_test, y_test, _, _ = process_data(
-        test_data, categorical_features=cat_features, label="salary", 
+        test_data, categorical_features=mc.cat_features, label="salary", 
         training=False, encoder=encoder, lb=lb
     )
     return X_test, y_test
@@ -58,7 +46,7 @@ def get_test_data():
 
 @pytest.fixture
 def get_model():
-    with open(os.path.join(MODEL_PATH, 'gb_model.pkl'), 'rb') as model_file:
+    with open(os.path.join(mc.model_path, 'gb_model.pkl'), 'rb') as model_file:
         model = pickle.load(model_file)
     return model
 
