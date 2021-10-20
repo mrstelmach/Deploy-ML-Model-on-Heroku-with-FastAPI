@@ -5,10 +5,28 @@ Functions for training Gradient Boosting with hyperparameter optimization,
 computing metrics and running in inference mode.
 """
 
+from typing import List
+
 import pandas as pd
+from pydantic import BaseModel
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.model_selection import RandomizedSearchCV
+
+
+class ModelConfig(BaseModel):
+    data_path: str = 'starter/data'
+    model_path: str = 'starter/model'
+    cat_features: List[str] = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country"
+    ]
 
 
 def train_model(X_train, y_train, hp_iter=5, random_seed=0):
