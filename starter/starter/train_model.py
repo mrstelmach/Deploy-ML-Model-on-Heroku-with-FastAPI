@@ -60,6 +60,7 @@ perf_args['data'], perf_args['type'] = test, 'test'
 perf_test = get_slices_performance(**perf_args)
 perf = pd.concat([perf_train, perf_test])
 perf.to_csv(os.path.join(mc.data_path, 'performance.csv'), index=False)
+perf.to_csv(os.path.join('files_for_review', 'slice_output.txt'), index=False)
 
 # Save samples for inference testing
 pred = lb.inverse_transform(inference(classifier, X_test)).tolist()
