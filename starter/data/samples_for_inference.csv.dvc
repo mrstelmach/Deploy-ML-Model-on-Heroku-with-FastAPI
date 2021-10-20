@@ -1,0 +1,4 @@
+outs:
+- md5: e94a51fed8f48fd6f1a955bf7d79d2b4
+  size: 368
+  path: samples_for_inference.csv
