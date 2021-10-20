@@ -11,7 +11,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from ml.data import process_data
-from ml.model import get_slices_performance, ModelConfig, train_model
+from ml.model import get_slices_performance, inference, ModelConfig, train_model
 
 mc = ModelConfig()
 
@@ -60,3 +60,11 @@ perf_args['data'], perf_args['type'] = test, 'test'
 perf_test = get_slices_performance(**perf_args)
 perf = pd.concat([perf_train, perf_test])
 perf.to_csv(os.path.join(mc.data_path, 'performance.csv'), index=False)
+
+# Save samples for inference testing
+pred = lb.inverse_transform(inference(classifier, X_test)).tolist()
+test['pred'] = pred
+pos_sample = test[test.pred == '>50K'].drop('salary', axis=1).sample(1)
+neg_sample = test[test.pred == '<=50K'].drop('salary', axis=1).sample(1)
+pd.concat([pos_sample, neg_sample]).to_csv(
+    os.path.join(mc.data_path, 'samples_for_inference.csv'), index=False)
