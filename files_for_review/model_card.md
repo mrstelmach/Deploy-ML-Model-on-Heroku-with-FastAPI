@@ -28,7 +28,7 @@ Random split with a 20% of the full dataset for model evaluation purposes is use
 
 ## Metrics
 
-F1 score is used as a main model performance metric. Precision and recall are also tracked. The current performance for both train and test datasets (and additionally for various data slices) is available in [performance.csv](https://github.com/mrstelmach/Deploy-ML-Model-on-Heroku-with-FastAPI/blob/main/starter/data/performance.csv) file. The most recent model achieves **0.73** F1 score for test dataset.
+F1 score is used as a main model performance metric. Precision and recall are also tracked. The current performance for both train and test datasets (and additionally for various data slices) is available in [performance.csv](https://github.com/mrstelmach/Deploy-ML-Model-on-Heroku-with-FastAPI/blob/main/starter/data/performance.csv) file. The most recent model achieves **0.73** F1 score, **0.80** precision and **0.67** recall on the test dataset.
 
 ## Ethical Considerations
 
