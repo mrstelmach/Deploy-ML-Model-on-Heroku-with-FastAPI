@@ -11,7 +11,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from ml.data import process_data
-from ml.model import get_slices_performance, inference, ModelConfig, train_model
+from ml.model import (
+    compute_model_metrics, get_slices_performance, 
+    inference, ModelConfig, train_model
+)
 
 mc = ModelConfig()
 
@@ -45,6 +48,12 @@ with open(os.path.join(mc.model_path, 'gb_model.pkl'), 'wb') as model_file:
     pickle.dump(classifier, model_file)
 
 # Evaluate overall model score and performance on slices.
+precision, recall, fbeta = compute_model_metrics(
+    y_test, inference(classifier, X_test)
+)
+print(f'Overall model score for test data: f1 - {fbeta:.4f}, ' +
+      f'precision - {precision:.4f} and recall - {recall:.4f}')
+
 perf_args = {
     'model': classifier,
     'data': train,
@@ -62,7 +71,7 @@ perf = pd.concat([perf_train, perf_test])
 perf.to_csv(os.path.join(mc.data_path, 'performance.csv'), index=False)
 perf.to_csv(os.path.join('files_for_review', 'slice_output.txt'), index=False)
 
-# Save samples for inference testing
+# Save samples for inference testing.
 pred = lb.inverse_transform(inference(classifier, X_test)).tolist()
 test['pred'] = pred
 pos_sample = test[test.pred == '>50K'].drop('salary', axis=1).sample(1)
